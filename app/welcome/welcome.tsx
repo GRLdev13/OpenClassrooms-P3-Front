@@ -1,5 +1,6 @@
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
+import { Link } from "react-router";
 
 export function Welcome() {
   return (
@@ -39,19 +40,15 @@ export function Welcome() {
                 </li>
               ))}
             </ul>
-                     <ul>
-              {resources.map(({ dashref }) => (
-                <li key={dashref}>
-                  <a
-                    className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                    href={dashref}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    toto
-                  </a>
-                </li>
-              ))}
+            <ul>
+              <li>
+                <Link
+                  className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+                  to="/dashboards"
+                >
+                  Dashboards
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
@@ -63,7 +60,6 @@ export function Welcome() {
 const resources = [
   {
     href: "https://reactrouter.com/docs",
-    dashref:"./dashboards",
     text: "React Router Docs",
     icon: (
       <svg
