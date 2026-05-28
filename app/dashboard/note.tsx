@@ -13,6 +13,8 @@ export default function Note({ note }: NoteProps) {
           <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded">
             {note.tag.name}
           </span>
+          <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+          >Delete</button>
         </div>
       )}
     </li>

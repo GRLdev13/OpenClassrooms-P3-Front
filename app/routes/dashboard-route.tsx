@@ -1,4 +1,4 @@
-import AddNote from "~/dashboard/add-note";
+
 import Dashboards from "~/dashboard/dashboards";
 
 export function meta() {
@@ -10,9 +10,6 @@ export function meta() {
 
 export default function Dashboard() {
   return (
-    <>
-      <AddNote />
       <Dashboards />
-    </>
   );
 }

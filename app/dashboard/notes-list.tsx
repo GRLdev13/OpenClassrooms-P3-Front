@@ -8,6 +8,7 @@ type NotesListProps = {
 export default function NotesList({ notes }: NotesListProps) {
   return (
     <ul className="space-y-3">
+      Your Notes
       {notes.map((note, index) => (
         <Note key={note.tag?.id ? `${note.tag.id}-${index}` : index} note={note} />
       ))}

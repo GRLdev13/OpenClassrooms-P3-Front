@@ -7,32 +7,23 @@ type TagsProps = {
   tags: TagDTO[];
 };
 
-export default function AddNote({ tags }: TagsProps) {
+export default function AddTag() {
 
   const [text, setText] = useState("");
-  const [selectedTagId, setSelectedTagId] = useState("");
 
   const handleSubmit = async () => {
-    const selectedTag = tags.find((x) => x.id === selectedTagId);
-    if (!selectedTag) {
-      return;
-    }
 
     const noteDTO = new NotesDTO();
     noteDTO.text = text;
-    noteDTO.tag = selectedTag;
 
-    //TODO: service mapper
-    await fetch("http://back.test/notes", {
+    //Todo: service mapper
+    await fetch("http://back.test/tag", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(noteDTO),
     });
-
-    setText("");
-    setSelectedTagId("");
   };
 
   return (
@@ -43,22 +34,7 @@ export default function AddNote({ tags }: TagsProps) {
         placeholder="Write your note"
         required
       />
-
       <label htmlFor="tags">Tags</label>
-      <select
-        id="tags"
-        value={selectedTagId}
-        onChange={(event) => setSelectedTagId(event.target.value)}
-        required
-      >
-        <option value="">Tags</option>
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.id}>
-            {tag.name}
-          </option>
-        ))}
-      </select>
-
       <button type="submit" style={{ backgroundColor: "blue", color: "white" }}>
         Submit
       </button>

@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import type { DashBoardDTO } from "~/DTO/DashboardDTO";
 import { useGetDashboardQuery } from "~/services/dashboard-service";
 import NotesList from "./notes-list";
+import AddNote from "./add-note";
+import type { TagDTO } from "~/DTO/TagDTO";
+import AddTag from "./add-tag";
+
 
 
 export default function Dashboards() {
@@ -51,6 +55,10 @@ export default function Dashboards() {
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+        {dashboard?.tags && dashboard?.tags.length > 0 ? (
+        <AddNote tags={dashboard?.tags}></AddNote>) :
+        <></>}
+        <AddTag></AddTag>
         {dashboard?.notes && dashboard?.notes.length > 0 ? (
           <NotesList notes={dashboard.notes} />
         ) : (
