@@ -1,6 +1,6 @@
-import { type FormEvent, useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { NotesDTO } from "~/DTO/NotesDTO";
-import { useGetDashboardQuery } from "~/services/dashboard-service";
+import { usePutNoteQuery } from "~/services/dashboard-service";
 import { TagDTO } from "~/DTO/TagDTO";
 
 type TagsProps = {
@@ -8,11 +8,12 @@ type TagsProps = {
 };
 
 export default function AddNote({ tags }: TagsProps) {
-
+  const [dashboard, setNote] = useState<NotesDTO | null>(null);
   const [text, setText] = useState("");
   const [selectedTagId, setSelectedTagId] = useState("");
 
   const handleSubmit = async () => {
+    const { data, error, isLoading, refetch } = usePutNoteQuery("dashboard");
     const selectedTag = tags.find((x) => x.id === selectedTagId);
     if (!selectedTag) {
       return;
@@ -22,46 +23,53 @@ export default function AddNote({ tags }: TagsProps) {
     noteDTO.text = text;
     noteDTO.tag = selectedTag;
 
-    //TODO: service mapper
-    await fetch("http://back.test/notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(noteDTO),
-    });
+    const handleRetry = () => {
+      console.log("retry called");
+      refetch();
+    };
 
-    setText("");
-    setSelectedTagId("");
+    useEffect(() => {
+      if (!isLoading && data) {
+        console.log("fetch stuffs:", data);
+        setNote(data);
+      }
+    }, [data, isLoading]);
+
+    if (error) {
+      console.log("error:", error);
+    }
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          placeholder="Write your note"
+          required
+        />
+
+        <label htmlFor="tags">Tags</label>
+        <select
+          id="tags"
+          value={selectedTagId}
+          onChange={(event) => setSelectedTagId(event.target.value)}
+          required
+        >
+          <option value="">Tags</option>
+          {tags.map((tag) => (
+            <option key={tag.id} value={tag.id}>
+              {tag.name}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="submit"
+          style={{ backgroundColor: "blue", color: "white" }}
+        >
+          Submit
+        </button>
+      </form>
+    );
   };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        value={text}
-        onChange={(event) => setText(event.target.value)}
-        placeholder="Write your note"
-        required
-      />
-
-      <label htmlFor="tags">Tags</label>
-      <select
-        id="tags"
-        value={selectedTagId}
-        onChange={(event) => setSelectedTagId(event.target.value)}
-        required
-      >
-        <option value="">Tags</option>
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.id}>
-            {tag.name}
-          </option>
-        ))}
-      </select>
-
-      <button type="submit" style={{ backgroundColor: "blue", color: "white" }}>
-        Submit
-      </button>
-    </form>
-  );
 }

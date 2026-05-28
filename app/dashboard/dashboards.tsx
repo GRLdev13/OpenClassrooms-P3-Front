@@ -3,7 +3,6 @@ import type { DashBoardDTO } from "~/DTO/DashboardDTO";
 import { useGetDashboardQuery } from "~/services/dashboard-service";
 import NotesList from "./notes-list";
 import AddNote from "./add-note";
-import type { TagDTO } from "~/DTO/TagDTO";
 import AddTag from "./add-tag";
 
 
