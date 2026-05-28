@@ -5,7 +5,7 @@ import { DashBoardDTO } from '~/DTO/DashboardDTO'
 // Define a service using a base URL and expected endpoints
 export const dashBoardApi = createApi({
   reducerPath: 'DashBoardApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/back.test/dashboard' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://back.test/' }),
   endpoints: (builder) => ({
     getDashboard: builder.query<DashBoardDTO, string>({
       query: (name) => `dashboard`,
