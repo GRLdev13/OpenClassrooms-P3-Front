@@ -12,11 +12,20 @@ export const dashBoardApi = createApi({
     getDashboard: builder.query<DashBoardDTO, string>({
       query: (name) => `dashboard`,
     }),
-    putNote: builder.query<NotesDTO, string>({
-      query: (name) => `note`,
+    //MUTATIONS
+    putNote: builder.mutation<NotesDTO, Partial<NotesDTO>>({
+      query: (note) => ({
+        url: `note`,
+        method: 'POST',
+        body: note,
+      }),
     }),
-    putTag: builder.query<TagDTO, string>({
-      query: (name) => `tag`,
+    putTag: builder.mutation<TagDTO, Partial<TagDTO>>({
+      query: (tag) => ({
+        url: `tag`,
+        method: 'POST',
+        body: tag,
+      }),
     }),
   }),
 })
@@ -24,5 +33,5 @@ export const dashBoardApi = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { useGetDashboardQuery } = dashBoardApi
-export const { usePutNoteQuery } = dashBoardApi
-export const { usePutTagQuery } = dashBoardApi
+export const { usePutNoteMutation } = dashBoardApi
+export const { usePutTagMutation } = dashBoardApi
