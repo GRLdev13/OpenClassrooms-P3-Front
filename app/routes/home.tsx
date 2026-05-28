@@ -10,5 +10,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  console.log("Welcome called");
   return <Welcome />;
 }
