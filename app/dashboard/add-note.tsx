@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { NotesDTO } from "~/DTO/NotesDTO";
+import { AddNotesDTO, NotesDTO } from "~/DTO/NotesDTO";
 import { usePutNoteMutation } from "~/services/dashboard-service";
-import type { ReceiveTagDTO, TagDTO } from "~/DTO/TagDTO";
+import type { ReceiveTagDTO, AddTagDTO } from "~/DTO/TagDTO";
 
 type TagsProps = {
   tags: ReceiveTagDTO[];
@@ -15,14 +15,13 @@ export default function AddNote({ tags }: TagsProps) {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const selectedTag = tags.find((x) => x.id === Number.parseInt(selectedTagId));
+    const p_id_tag = Number.parseInt(selectedTagId);
+    const selectedTag = tags.find((x) => x.id === p_id_tag);
     if (!selectedTag) {
       return;
     }
 
-    const noteDTO = new NotesDTO();
-    noteDTO.text = text;
-    noteDTO.tag = selectedTag;
+    const noteDTO = new AddNotesDTO({text:text, tag_id:p_id_tag});
 
     try {
       await putNote(noteDTO).unwrap();

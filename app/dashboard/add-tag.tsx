@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { usePutTagMutation } from "~/services/dashboard-service";
-import { Tag, TagDTO } from "~/DTO/TagDTO";
+import { Tag, AddTagDTO } from "~/DTO/TagDTO";
 
 type TagsProps = {
-  tags: TagDTO[];
+  tags: AddTagDTO[];
 };
 
 export default function AddTag() {
@@ -13,7 +13,7 @@ export default function AddTag() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const tagDTO = new TagDTO({name:text});
+    const tagDTO = new AddTagDTO({name:text});
     //use mutation for manual api call
     await putTag(tagDTO).unwrap();
   };

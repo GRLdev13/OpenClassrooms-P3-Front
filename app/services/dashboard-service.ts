@@ -1,8 +1,8 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { DashBoardDTO } from '~/DTO/DashboardDTO'
-import type { NotesDTO } from '~/DTO/NotesDTO'
-import type { Tag, TagDTO } from '~/DTO/TagDTO'
+import type { AddNotesDTO, NotesDTO } from '~/DTO/NotesDTO'
+import type { Tag, AddTagDTO } from '~/DTO/TagDTO'
 
 const getXsrfToken = (): string | undefined => {
   if (typeof document === 'undefined') {
@@ -40,19 +40,22 @@ export const dashBoardApi = createApi({
     getDashboard: builder.query<DashBoardDTO, string>({
       query: (name) => `dashboard`,
     }),
-    //MUTATIONS
-    putNote: builder.mutation<NotesDTO, Partial<NotesDTO>>({
+    //Use Mutation for POST sending
+    putNote: builder.mutation<AddNotesDTO, Partial<AddNotesDTO>>({
       query: (note) => ({
-        url: `note`,
+        url: `notes`,
         method: 'POST',
-        body: note,
+    //Explicitly mapp the body of the request so the object is correctly mapped to its JSON counterpart
+        body: {
+          text: note.text,
+          tag_id: note.tag_id,
+        }
       }),
     }),
-    putTag: builder.mutation<Tag, Partial<Tag>>({
+    putTag: builder.mutation<AddTagDTO, Partial<AddTagDTO>>({
       query: (tag) => ({
         url: `tags`,
         method: 'POST',
-          // Transform the class instance here before sending
         body: {
           name: tag.name,
         }

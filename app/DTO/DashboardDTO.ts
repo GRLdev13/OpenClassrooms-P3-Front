@@ -1,5 +1,5 @@
 import { NotesDTO } from "./NotesDTO";
-import { Tag, TagDTO } from "./TagDTO";
+import { Tag, AddTagDTO } from "./TagDTO";
 
 export class DashBoardDTO {
 

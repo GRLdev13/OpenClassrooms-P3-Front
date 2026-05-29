@@ -7,9 +7,9 @@ export class Tag {
 }
 
 //send DTO
-export class TagDTO {
+export class AddTagDTO {
   name: string = "";
-  constructor(data : TagDTO) {
+  constructor(data: Partial<AddTagDTO> = {}) {
     this.name = data.name || '';
   }
 }
