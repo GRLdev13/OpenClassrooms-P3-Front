@@ -55,11 +55,11 @@ export default function Dashboards() {
       <div className="w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         {dashboard?.tags && dashboard?.tags.length > 0 ? (
-        <AddNote tags={dashboard?.tags}></AddNote>) :
+        <AddNote tags={dashboard?.tags} onNoteCreated={refetch}></AddNote>) :
         <></>}
         <AddTag></AddTag>
         {dashboard?.notes && dashboard?.notes.length > 0 ? (
-          <NotesList notes={dashboard.notes} />
+          <NotesList notes={dashboard.notes} onNoteDeleted={refetch} />
         ) : (
           <div className="text-center">
             <p className="text-gray-500 mb-4">No notes available</p>

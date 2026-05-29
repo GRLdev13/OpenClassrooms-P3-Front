@@ -5,9 +5,10 @@ import type { ReceiveTagDTO, AddTagDTO } from "~/DTO/TagDTO";
 
 type TagsProps = {
   tags: ReceiveTagDTO[];
+  onNoteCreated: () => void;
 };
 
-export default function AddNote({ tags }: TagsProps) {
+export default function AddNote({ tags, onNoteCreated }: TagsProps) {
   const [text, setText] = useState("");
   const [selectedTagId, setSelectedTagId] = useState("");
   
@@ -27,6 +28,7 @@ export default function AddNote({ tags }: TagsProps) {
       await putNote(noteDTO).unwrap();
       setText("");
       setSelectedTagId("");
+      onNoteCreated();
     } catch (error) {
       console.log("error:", error);
     }

@@ -1,7 +1,7 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { DashBoardDTO } from '~/DTO/DashboardDTO'
-import type { AddNotesDTO, NotesDTO } from '~/DTO/NotesDTO'
+import type { AddNotesDTO, DeleteNoteDTO } from '~/DTO/NotesDTO'
 import type { Tag, AddTagDTO } from '~/DTO/TagDTO'
 
 const getXsrfToken = (): string | undefined => {
@@ -22,6 +22,7 @@ const getXsrfToken = (): string | undefined => {
 // Define a service using a base URL and expected endpoints
 export const dashBoardApi = createApi({
   reducerPath: 'DashBoardApi',
+  tagTypes: ['Dashboard'],
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api/',
     credentials: 'include',
@@ -39,6 +40,7 @@ export const dashBoardApi = createApi({
   endpoints: (builder) => ({
     getDashboard: builder.query<DashBoardDTO, string>({
       query: (name) => `dashboard`,
+      providesTags: ['Dashboard'],
     }),
     //Use Mutation for POST sending
     putNote: builder.mutation<AddNotesDTO, Partial<AddNotesDTO>>({
@@ -51,6 +53,7 @@ export const dashBoardApi = createApi({
           tag_id: note.tag_id,
         }
       }),
+      // invalidatesTags: ['Dashboard'],
     }),
     putTag: builder.mutation<AddTagDTO, Partial<AddTagDTO>>({
       query: (tag) => ({
@@ -60,6 +63,14 @@ export const dashBoardApi = createApi({
           name: tag.name,
         }
       }),
+      // invalidatesTags: ['Dashboard'],
+    }),
+    deleteNote: builder.mutation<DeleteNoteDTO, Partial<DeleteNoteDTO>>({
+      query: (note) => ({
+        url: `notes/${note.id_note}`,
+        method: 'DELETE',
+      }),
+      // // invalidatesTags: ['Dashboard'],
     }),
   }),
 })
@@ -69,3 +80,4 @@ export const dashBoardApi = createApi({
 export const { useGetDashboardQuery } = dashBoardApi
 export const { usePutNoteMutation } = dashBoardApi
 export const { usePutTagMutation } = dashBoardApi
+export const { useDeleteNoteMutation } = dashBoardApi

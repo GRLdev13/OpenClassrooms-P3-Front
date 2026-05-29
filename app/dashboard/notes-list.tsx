@@ -3,14 +3,19 @@ import Note from "./note";
 
 type NotesListProps = {
   notes: NotesDTO[];
+  onNoteDeleted: () => void;
 };
 
-export default function NotesList({ notes }: NotesListProps) {
+export default function NotesList({ notes, onNoteDeleted }: NotesListProps) {
   return (
     <ul className="space-y-3">
       Your Notes
       {notes.map((note, index) => (
-        <Note key={note.tag?.id ? `${note.tag.id}-${index}` : index} note={note} />
+        <Note
+          key={note.id ? note.id : index}
+          note={note}
+          onNoteDeleted={onNoteDeleted}
+        />
       ))}
     </ul>
   );
