@@ -3,10 +3,19 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  
   plugins: [tailwindcss(), reactRouter()],
   resolve: {
     tsconfigPaths: true,
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://back.test",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   build: {
   minify: 'terser',

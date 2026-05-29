@@ -1,11 +1,10 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
 import { NotesDTO } from "~/DTO/NotesDTO";
 import { usePutNoteMutation } from "~/services/dashboard-service";
-import type { TagDTO } from "~/DTO/TagDTO";
+import type { ReceiveTagDTO, TagDTO } from "~/DTO/TagDTO";
 
 type TagsProps = {
-  tags: TagDTO[];
+  tags: ReceiveTagDTO[];
 };
 
 export default function AddNote({ tags }: TagsProps) {
@@ -16,7 +15,7 @@ export default function AddNote({ tags }: TagsProps) {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const selectedTag = tags.find((x) => x.id === selectedTagId);
+    const selectedTag = tags.find((x) => x.id === Number.parseInt(selectedTagId));
     if (!selectedTag) {
       return;
     }

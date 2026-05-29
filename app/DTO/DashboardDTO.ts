@@ -1,8 +1,8 @@
 import { NotesDTO } from "./NotesDTO";
-import { TagDTO } from "./TagDTO";
+import { Tag, TagDTO } from "./TagDTO";
 
 export class DashBoardDTO {
 
   notes: NotesDTO[] = [];
-  tags: TagDTO[] = [];
+  tags: Tag[] = [];
 }
