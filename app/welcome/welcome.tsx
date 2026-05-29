@@ -14,6 +14,24 @@ export function Welcome() {
             >
               Dashboards
             </Link>
+            <Link
+              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+              to="/login"
+            >
+              Login
+            </Link>
+            <Link
+              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+              to="/register"
+            >
+              Register
+            </Link>
+            <Link
+              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+              to="/profile"
+            >
+              Profile
+            </Link>
           </li>
         </ul>
       </div>

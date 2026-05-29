@@ -11,8 +11,8 @@ type TagsProps = {
 export default function AddNote({ tags, onNoteCreated }: TagsProps) {
   const [text, setText] = useState("");
   const [selectedTagId, setSelectedTagId] = useState("");
-  
   const [putNote, { error, isLoading }] = usePutNoteMutation();
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 

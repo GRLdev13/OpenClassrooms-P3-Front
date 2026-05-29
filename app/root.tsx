@@ -5,10 +5,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  Link,
 } from "react-router";
 
-import { Provider } from 'react-redux';
-import { store } from './stores/store';
+import { Provider } from "react-redux";
+import { store } from "./stores/store";
 import type { Route } from "./+types/root";
 import "./app.css";
 
@@ -35,10 +36,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <h1>main</h1>
-        <Provider store={store}>
-          {children}
-        </Provider>
+        <Link
+          to="/"
+        >
+          Main
+        </Link>
+        <Provider store={store}>{children}</Provider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -49,7 +52,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return <Outlet />;
 }
-
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";

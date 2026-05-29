@@ -5,14 +5,11 @@ import NotesList from "./notes-list";
 import AddNote from "./add-note";
 import AddTag from "./add-tag";
 
-
-
 export default function Dashboards() {
-
-  const { data, error, isLoading, refetch } = useGetDashboardQuery('dashboard');
+  const { data, error, isLoading, refetch } = useGetDashboardQuery("dashboard");
   const [dashboard, setDashboard] = useState<DashBoardDTO | null>(null);
 
-  const handleRetry = () =>  {
+  const handleRetry = () => {
     console.log("retry called");
     refetch();
   };
@@ -27,7 +24,7 @@ export default function Dashboards() {
   if (error) {
     console.log("error:", error);
   }
-  
+
   //TODO: handle states
   if (error) {
     return (
@@ -39,15 +36,15 @@ export default function Dashboards() {
     );
   }
 
-    if (isLoading) {
-      return (
-    <div className="flex items-center justify-center pt-16 pb-4 h-screen">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-        <p className="text-gray-600">Loading dashboard...</p>
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center pt-16 pb-4 h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
       </div>
-    </div>
-  );
+    );
   }
 
   return (
@@ -55,8 +52,10 @@ export default function Dashboards() {
       <div className="w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         {dashboard?.tags && dashboard?.tags.length > 0 ? (
-        <AddNote tags={dashboard?.tags} onNoteCreated={refetch}></AddNote>) :
-        <></>}
+          <AddNote tags={dashboard?.tags} onNoteCreated={refetch}></AddNote>
+        ) : (
+          <></>
+        )}
         <AddTag></AddTag>
         {dashboard?.notes && dashboard?.notes.length > 0 ? (
           <NotesList notes={dashboard.notes} onNoteDeleted={refetch} />

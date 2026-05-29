@@ -6,14 +6,14 @@ export abstract class Authentification {
 }
 
 export class RegisterUserDTO extends Authentification{
-  confirmPassword: string = "";
+  passwordConfirmation: string = "";
 
   constructor(data: Partial<RegisterUserDTO> = {}) {
     super();
     this.name = data.name || "";
     this.email = data.email || "";
     this.password = data.password || "";
-    this.confirmPassword = data.confirmPassword || "";
+    this.passwordConfirmation = data.passwordConfirmation || "";
   }
 }
 
