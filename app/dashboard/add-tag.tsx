@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { usePutTagMutation } from "~/services/dashboard-service";
 import { Tag, AddTagDTO } from "~/DTO/TagDTO";
+import ErrorComponent from "~/helpers/ErrorsComponent";
 
 type TagsProps = {
   tags: AddTagDTO[];
@@ -13,7 +14,7 @@ export default function AddTag() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const tagDTO = new AddTagDTO({name:text});
+    const tagDTO = new AddTagDTO({ name: text });
     //use mutation for manual api call
     await putTag(tagDTO).unwrap();
   };
@@ -27,6 +28,7 @@ export default function AddTag() {
         required
       />
       <label htmlFor="tags">Tags</label>
+      {error && <ErrorComponent error={error} />}
       <button type="submit" style={{ backgroundColor: "blue", color: "white" }}>
         Submit
       </button>

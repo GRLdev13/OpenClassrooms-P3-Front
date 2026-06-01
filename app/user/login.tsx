@@ -1,32 +1,29 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { LoginUserDTO } from "~/DTO/UserDTO";
 import { usePutLoginMutation } from "~/services/dashboard-service";
+import ErrorComponent from "~/helpers/ErrorsComponent";
 
 export default function Login() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [putUser, { error, isLoading }] = usePutLoginMutation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const userDTO = new LoginUserDTO({
-      name,
       email,
       password,
     });
 
     try {
       await putUser(userDTO).unwrap();
-    } catch (error) {
-      console.log("error:", error);
-    }
-
-    //TODO handle states
+      navigate("/dashboards");
+    } catch (error) {}
   };
 
   return (
@@ -36,16 +33,6 @@ export default function Login() {
         className="flex w-full max-w-md flex-col gap-4"
       >
         <h1 className="text-2xl font-bold">Login</h1>
-
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-          className="rounded border border-gray-300 px-3 py-2"
-        />
 
         <label htmlFor="email">Email address</label>
         <input
@@ -76,11 +63,7 @@ export default function Login() {
           </button>
         </div>
 
-        {error && (
-          <div className="text-center">
-            <div className="mb-4 text-red-500">Error while logging in</div>
-          </div>
-        )}
+        {error && <ErrorComponent error={error} />}
 
         <button
           type="submit"

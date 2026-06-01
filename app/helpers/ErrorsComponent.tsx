@@ -2,12 +2,18 @@ import type { SerializedError } from "@reduxjs/toolkit";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 type ErrorComponentProps = {
-  error?: FetchBaseQueryError | SerializedError;
+  error?: FetchBaseQueryError | SerializedError | string;
 };
 
-function getErrorMessages(error?: FetchBaseQueryError | SerializedError) {
+function getErrorMessages(
+  error?: FetchBaseQueryError | SerializedError | string,
+): string[] {
   if (!error) {
     return [];
+  }
+
+  if (typeof error === "string") {
+    return [error];
   }
 
   if ("data" in error) {
@@ -40,11 +46,11 @@ function getErrorMessages(error?: FetchBaseQueryError | SerializedError) {
     return [`Request failed with status ${error.status}`];
   }
 
-  if ("error" in error && error.error) {
+  if ("error" in error && typeof error.error === "string") {
     return [error.error];
   }
 
-  if ("message" in error && error.message) {
+  if ("message" in error && typeof error.message === "string") {
     return [error.message];
   }
 

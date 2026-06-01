@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DeleteNoteDTO } from "~/DTO/NotesDTO";
 import type { NotesDTO } from "~/DTO/NotesDTO";
+import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useDeleteNoteMutation } from "~/services/dashboard-service";
 
 type NoteProps = {
@@ -42,7 +43,7 @@ export default function Note({ note, onNoteDeleted }: NoteProps) {
           >
             {isLoading ? "Deleting..." : "Delete"}
           </button>
-          {errorMessage ? <div style={{ color: "red" }}>{errorMessage}</div> : null}
+          {errorMessage && <ErrorComponent error={errorMessage} />}
         </div>
       )}
     </li>

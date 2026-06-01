@@ -7,6 +7,7 @@ export function Welcome() {
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <ul>
+          {/* <button onClick={debug}>debug</button> */}
           <li>
             <Link
               className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router";
 import { RegisterUserDTO } from "~/DTO/UserDTO";
+import ErrorComponent from "~/helpers/ErrorsComponent";
 import { usePutRegisterMutation } from "~/services/dashboard-service";
 
 export default function Register() {
@@ -39,7 +40,7 @@ export default function Register() {
     event.preventDefault();
 
     const userDTO = new RegisterUserDTO({
-      name,
+      name: name,
       email,
       password,
       passwordConfirmation: confirmPassword,
@@ -107,11 +108,7 @@ export default function Register() {
           </button>
         </div>
 
-        {error && (
-          <div className="text-center">
-            <div className="mb-4 text-red-500">{mapError(error)}</div>
-          </div>
-        )}
+        {error && <ErrorComponent error={error} />}
 
         <button
           type="submit"
