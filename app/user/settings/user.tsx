@@ -64,7 +64,7 @@ export default function UpdateUser() {
     try {
       await putUserUser(userDTO).unwrap();
       if (userDTO.email != storedEmail || userDTO.name != storedName) {
-        dispatch(setUser({ email: userDTO.email, name: userDTO.name }));
+        dispatch(setUser({ email: userDTO.email, name: userDTO.name, token:"" })); //requires news login ? or re-fetch login directly from back-end
       }
     } catch (error) {}
   };

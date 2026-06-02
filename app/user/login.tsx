@@ -33,6 +33,7 @@ export default function Login() {
           token: response.token,
         }),
       );
+      localStorage.setItem("token", response.token);
       navigate("/dashboards");
     } catch (error) {}
   };

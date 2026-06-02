@@ -55,14 +55,10 @@ export const dashBoardApi = createApi({
     baseUrl: "http://back.test/",
     credentials: "include",
     prepareHeaders: (headers,{getState }) => {
-
       let state = getState() as any; //State saves every reference to other slices of redux states
-      console.log(state);
-
-      //TODO: XSRF token header potentialy idk
-      if (state?.user?.token) {
-        headers.set("Authorization", `Bearer ${state?.user?.token}`);
-      }
+      let tok = localStorage.getItem("token");
+      headers.set("Authorization", `Bearer ${(state?.user?.token ? state?.user?.token : tok)}`);
+      //TODO: XSRF token + laravel token
     },
   }),
   endpoints: (builder) => ({
