@@ -1,9 +1,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { LoginUserDTO } from "~/DTO/UserDTO";
+import { useDispatch } from "react-redux";
+import { LoggedUserDTO, LoginUserDTO } from "~/DTO/UserDTO";
 import { usePutLoginMutation } from "~/services/dashboard-service";
 import ErrorComponent from "~/helpers/ErrorsComponent";
+import { setUser } from "~/stores/userSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,17 +13,20 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [putUser, { error, isLoading }] = usePutLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const userDTO = new LoginUserDTO({
       email,
-      password,
+      password
     });
 
     try {
-      await putUser(userDTO).unwrap();
+      const response = await putUser(userDTO).unwrap();
+      // Save user info to Redux
+      dispatch(setUser({ email:response.email, name:response.name }));
       navigate("/dashboards");
     } catch (error) {}
   };

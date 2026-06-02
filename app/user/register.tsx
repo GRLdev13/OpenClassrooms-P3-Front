@@ -1,9 +1,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { RegisterUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { usePutRegisterMutation } from "~/services/dashboard-service";
+import { setUser } from "~/stores/userSlice";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -13,6 +15,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [putUser, { error, isLoading }] = usePutRegisterMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function mapError(error: any) {
     if (!error) {
@@ -48,7 +51,9 @@ export default function Register() {
     });
 
     try {
-      await putUser(userDTO).unwrap();
+      const response = await putUser(userDTO).unwrap();
+      // Save user info to Redux
+      dispatch(setUser({ email, name }));
       navigate("/login");
     } catch (error) {}
   };

@@ -25,6 +25,16 @@ export class LoginUserDTO extends Authentification {
   }
 }
 
+export class LoggedUserDTO extends Authentification {
+  name: string = "";
+  constructor(data: Partial<LoggedUserDTO> = {}) {
+    super();
+    this.name = data.name || "";
+    this.email = data.email || "";
+    this.password = data.password || "";
+  }
+}
+
 export class UpdateUserDTO extends Authentification {
   name: string = "";
 

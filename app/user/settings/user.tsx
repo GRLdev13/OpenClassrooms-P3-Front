@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import { RegisterUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { usePutRegisterMutation } from "~/services/dashboard-service";
@@ -11,6 +12,20 @@ export default function UpdateUser() {
   const [password, setPassword] = useState("");
   const [putUser, { error, isLoading }] = usePutRegisterMutation();
   const navigate = useNavigate();
+  
+  // Get user info from Redux store
+  const storedEmail = useSelector((state: any) => state.user.email);
+  const storedName = useSelector((state: any) => state.user.name);
+
+  // Initialize form with stored user data
+  useEffect(() => {
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+    if (storedName) {
+      setName(storedName);
+    }
+  }, [storedEmail, storedName]);
 
   function mapError(error: any) {
     if (!error) {

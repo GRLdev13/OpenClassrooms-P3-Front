@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { DashBoardDTO } from "~/DTO/DashboardDTO";
 import type { AddNotesDTO, DeleteNoteDTO } from "~/DTO/NotesDTO";
 import type { Tag, AddTagDTO } from "~/DTO/TagDTO";
-import type { LoginUserDTO, RegisterUserDTO, UpdateUserDTO } from "~/DTO/UserDTO";
+import type { LoginUserDTO, RegisterUserDTO, UpdateUserDTO, LoggedUserDTO } from "~/DTO/UserDTO";
 
 //XSRF token shennanigans
 // let token_headers = "";
@@ -99,7 +99,7 @@ export const dashBoardApi = createApi({
         },
       }),
     }),
-    putLogin: builder.mutation<LoginUserDTO, Partial<LoginUserDTO>>({
+    putLogin: builder.mutation<LoggedUserDTO, Partial<LoginUserDTO>>({
       query: (user) => ({
         url: `login`,
         method: "POST",
