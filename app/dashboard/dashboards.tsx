@@ -4,6 +4,7 @@ import { useGetDashboardQuery } from "~/services/dashboard-service";
 import NotesList from "./notes-list";
 import AddNote from "./add-note";
 import AddTag from "./add-tag";
+import ErrorComponent from "~/helpers/ErrorsComponent";
 
 export default function Dashboards() {
   const { data, error, isLoading, refetch } = useGetDashboardQuery("dashboard");
@@ -16,24 +17,13 @@ export default function Dashboards() {
 
   useEffect(() => {
     if (!isLoading && data) {
-      console.log("fetch stuffs:", data);
       setDashboard(data);
     }
   }, [data, isLoading]);
 
-  if (error) {
-    console.log("error:", error);
-  }
-
   //TODO: handle states
   if (error) {
-    return (
-      <main className="flex items-center justify-center pt-16 pb-4">
-        <div className="text-center">
-          <div className="text-red-500 mb-4">Error:</div>
-        </div>
-      </main>
-    );
+    return <ErrorComponent error={error} />;
   }
 
   if (isLoading) {
@@ -62,12 +52,12 @@ export default function Dashboards() {
         ) : (
           <div className="text-center">
             <p className="text-gray-500 mb-4">No notes available</p>
-            <button
+            {/* <button
               onClick={handleRetry}
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
             >
               {"Retry"}
-            </button>
+            </button> */}
           </div>
         )}
       </div>
