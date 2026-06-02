@@ -23,7 +23,8 @@ export default function Note({ note, onNoteDeleted }: NoteProps) {
       onNoteDeleted();
     } catch (error) {
       console.log("error:", error);
-      setErrorMessage("Unable to delete note");
+      //TODO: map error message. + error?.data?.message
+      setErrorMessage(error as any);
     }
   };
 

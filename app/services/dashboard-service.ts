@@ -3,8 +3,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { DashBoardDTO } from "~/DTO/DashboardDTO";
 import type { AddNotesDTO, DeleteNoteDTO } from "~/DTO/NotesDTO";
 import type { Tag, AddTagDTO } from "~/DTO/TagDTO";
-import type { LoginUserDTO, RegisterUserDTO, UpdateUserDTO, LoggedUserDTO } from "~/DTO/UserDTO";
-
+import type {
+  LoginUserDTO,
+  RegisterUserDTO,
+  UpdateUserDTO,
+  LoggedUserDTO,
+} from "~/DTO/UserDTO";
+import { useSelector } from "react-redux";
+import { userSlice } from "~/stores/userSlice";
+import type { RootState } from "@reduxjs/toolkit/query";
 //XSRF token shennanigans
 // let token_headers = "";
 
@@ -47,8 +54,15 @@ export const dashBoardApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://back.test/",
     credentials: "include",
-    prepareHeaders: (headers) => {
+    prepareHeaders: (headers,{getState }) => {
+
+      let state = getState() as any; //State saves every reference to other slices of redux states
+      console.log(state);
+
       //TODO: XSRF token header potentialy idk
+      if (state?.user?.token) {
+        headers.set("Authorization", `Bearer ${state?.user?.token}`);
+      }
     },
   }),
   endpoints: (builder) => ({

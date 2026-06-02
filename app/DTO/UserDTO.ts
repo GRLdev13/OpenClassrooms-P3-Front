@@ -27,11 +27,14 @@ export class LoginUserDTO extends Authentification {
 
 export class LoggedUserDTO extends Authentification {
   name: string = "";
+  token: string = "";
+
   constructor(data: Partial<LoggedUserDTO> = {}) {
     super();
     this.name = data.name || "";
     this.email = data.email || "";
     this.password = data.password || "";
+    this.token = data.token || "";
   }
 }
 
@@ -41,6 +44,7 @@ export class UpdateUserDTO extends Authentification {
   constructor(data: Partial<UpdateUserDTO> = {}) {
     super();
     this.email = data.email || "";
+    this.name = data.name || "";
   }
 }
 

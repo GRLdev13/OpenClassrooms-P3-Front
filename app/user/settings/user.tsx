@@ -2,17 +2,19 @@ import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { RegisterUserDTO } from "~/DTO/UserDTO";
+import { useDispatch } from "react-redux";
+import { UpdateUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
-import { usePutRegisterMutation } from "~/services/dashboard-service";
+import { useUpdateUserMutation } from "~/services/dashboard-service";
+import { setUser } from "~/stores/userSlice";
 
 export default function UpdateUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [putUser, { error, isLoading }] = usePutRegisterMutation();
+  const [putUserUser, { error, isLoading }] = useUpdateUserMutation();
   const navigate = useNavigate();
-  
+    const dispatch = useDispatch();
+
   // Get user info from Redux store
   const storedEmail = useSelector((state: any) => state.user.email);
   const storedName = useSelector((state: any) => state.user.name);
@@ -53,15 +55,17 @@ export default function UpdateUser() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userDTO = new RegisterUserDTO({
-      name: name,
+
+    const userDTO = new UpdateUserDTO({
+      name,
       email,
-      password,
     });
 
     try {
-      await putUser(userDTO).unwrap();
-      navigate("/login");
+      await putUserUser(userDTO).unwrap();
+      if (userDTO.email != storedEmail || userDTO.name != storedName) {
+        dispatch(setUser({ email: userDTO.email, name: userDTO.name }));
+      }
     } catch (error) {}
   };
 

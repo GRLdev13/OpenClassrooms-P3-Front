@@ -20,13 +20,19 @@ export default function Login() {
 
     const userDTO = new LoginUserDTO({
       email,
-      password
+      password,
     });
 
     try {
       const response = await putUser(userDTO).unwrap();
       // Save user info to Redux
-      dispatch(setUser({ email:response.email, name:response.name }));
+      dispatch(
+        setUser({
+          email: response.email,
+          name: response.name,
+          token: response.token,
+        }),
+      );
       navigate("/dashboards");
     } catch (error) {}
   };
