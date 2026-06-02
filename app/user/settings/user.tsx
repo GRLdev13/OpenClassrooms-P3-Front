@@ -9,8 +9,6 @@ export default function UpdateUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [putUser, { error, isLoading }] = usePutRegisterMutation();
   const navigate = useNavigate();
 
@@ -44,7 +42,6 @@ export default function UpdateUser() {
       name: name,
       email,
       password,
-      passwordConfirmation: confirmPassword,
     });
 
     try {
@@ -59,7 +56,7 @@ export default function UpdateUser() {
         onSubmit={handleSubmit}
         className="flex w-full max-w-md flex-col gap-4"
       >
-        <h1 className="text-2xl font-bold">Register</h1>
+        <h1 className="text-2xl font-bold">Update User</h1>
 
         <label htmlFor="name">Name</label>
         <input
@@ -81,33 +78,6 @@ export default function UpdateUser() {
           className="rounded border border-gray-300 px-3 py-2"
         />
 
-        <label htmlFor="password">Password</label>
-        <div className="flex gap-2">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-            className="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2"
-          />
-          <input
-            id="confirmPassword"
-            type={showPassword ? "text" : "password"}
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            required
-            className="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((value) => !value)}
-            className="rounded bg-gray-200 px-3 py-2 text-gray-900"
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
-        </div>
-
         {error && <ErrorComponent error={error} />}
 
         <button
@@ -115,12 +85,8 @@ export default function UpdateUser() {
           disabled={isLoading}
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Creating..." : "Create user"}
+          {isLoading ? "Updating..." : "Update user"}
         </button>
-
-        <Link to="/login" className="text-blue-700 hover:underline">
-          Already have an account ? Login
-        </Link>
       </form>
     </main>
   );

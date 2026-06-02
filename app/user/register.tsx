@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { RegisterUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { usePutRegisterMutation } from "~/services/dashboard-service";
@@ -12,6 +12,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [putUser, { error, isLoading }] = usePutRegisterMutation();
+  const navigate = useNavigate();
 
   function mapError(error: any) {
     if (!error) {
@@ -48,9 +49,8 @@ export default function Register() {
 
     try {
       await putUser(userDTO).unwrap();
-    } catch (error) {
-      console.log("error:", error);
-    }
+      navigate("/login");
+    } catch (error) {}
   };
 
   return (
