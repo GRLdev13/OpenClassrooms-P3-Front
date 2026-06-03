@@ -48,6 +48,17 @@ export class UpdateUserDTO extends Authentification {
   }
 }
 
+export class DeleteUserDTO extends Authentification {
+  userId: string = "";
+  passwordConfirmation: string = "";
+
+  constructor(data: Partial<DeleteUserDTO> = {}) {
+    super();
+    this.password = data.password || "";
+    this.passwordConfirmation = data.passwordConfirmation || "";
+  }
+}
+
 export class UpdatePasswordDTO extends Authentification {
   passwordConfirmation: string = "";
 

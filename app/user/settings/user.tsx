@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { UpdateUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useUpdateUserMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
+import DeleteUserConfirmationPopup from "./deleteConfirmationpopup";
 
 export default function UpdateUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [putUserUser, { error, isLoading }] = useUpdateUserMutation();
-  const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // Get user info from Redux store
   const storedEmail = useSelector((state: any) => state.user.email);
@@ -106,7 +106,20 @@ export default function UpdateUser() {
         >
           {isLoading ? "Updating..." : "Update user"}
         </button>
+        <button
+          type="button"
+          onClick={() => setShowDeletePopup(true)}
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          Delete user
+        </button>
       </form>
+
+      {showDeletePopup && (
+        <DeleteUserConfirmationPopup
+          onClose={() => setShowDeletePopup(false)}
+        />
+      )}
     </main>
   );
 }

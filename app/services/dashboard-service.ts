@@ -8,6 +8,7 @@ import type {
   RegisterUserDTO,
   UpdateUserDTO,
   LoggedUserDTO,
+  DeleteUserDTO,
 } from "~/DTO/UserDTO";
 import { useSelector } from "react-redux";
 import { userSlice } from "~/stores/userSlice";
@@ -54,10 +55,13 @@ export const dashBoardApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://back.test/",
     credentials: "include",
-    prepareHeaders: (headers,{getState }) => {
+    prepareHeaders: (headers, { getState }) => {
       let state = getState() as any; //State saves every reference to other slices of redux states
-      let tok = localStorage.getItem("token");
-      headers.set("Authorization", `Bearer ${(state?.user?.token ? state?.user?.token : tok)}`);
+      let lToken = localStorage.getItem("token");
+      headers.set(
+        "Authorization",
+        `Bearer ${state?.user?.token ? state?.user?.token : lToken}`,
+      );
       //TODO: XSRF token + laravel token
     },
   }),
@@ -109,6 +113,16 @@ export const dashBoardApi = createApi({
         },
       }),
     }),
+    deleteUser: builder.mutation<DeleteUserDTO, Partial<DeleteUserDTO>>({
+      query: (user) => ({
+        url: `user`,
+        method: "POST",
+        body: {
+          password: user.password,
+          passwordConfirmation: user.passwordConfirmation,
+        },
+      }),
+    }),
     putLogin: builder.mutation<LoggedUserDTO, Partial<LoginUserDTO>>({
       query: (user) => ({
         url: `login`,
@@ -146,4 +160,5 @@ export const { usePutTagMutation } = dashBoardApi;
 export const { usePutLoginMutation } = dashBoardApi;
 export const { usePutRegisterMutation } = dashBoardApi;
 export const { useUpdateUserMutation } = dashBoardApi;
+export const { useDeleteUserMutation } = dashBoardApi;
 export const { useDeleteNoteMutation } = dashBoardApi;
