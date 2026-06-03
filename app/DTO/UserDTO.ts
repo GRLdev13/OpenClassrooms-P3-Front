@@ -49,11 +49,12 @@ export class UpdateUserDTO extends Authentification {
 }
 
 export class DeleteUserDTO extends Authentification {
-  userId: string = "";
+  email: string = "";
   passwordConfirmation: string = "";
 
   constructor(data: Partial<DeleteUserDTO> = {}) {
     super();
+    this.email = data.email || "";
     this.password = data.password || "";
     this.passwordConfirmation = data.passwordConfirmation || "";
   }

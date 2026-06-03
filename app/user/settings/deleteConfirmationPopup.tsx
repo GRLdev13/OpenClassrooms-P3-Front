@@ -8,10 +8,12 @@ import { useDeleteUserMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
 
 type DeleteUserConfirmationPopupProps = {
+  email: string;
   onClose: () => void;
 };
 
 export default function DeleteUserConfirmationPopup({
+  email,
   onClose,
 }: DeleteUserConfirmationPopupProps) {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ export default function DeleteUserConfirmationPopup({
     setPasswordError("");
 
     const deleteUserDTO = new DeleteUserDTO({
+      email,
       password,
       passwordConfirmation,
     });
@@ -40,7 +43,7 @@ export default function DeleteUserConfirmationPopup({
       await deleteUser(deleteUserDTO).unwrap();
       localStorage.removeItem("token");
       onClose();
-      navigate("/login");
+      navigate("../login");
       //TODO: maybe call delete user function from dispatch
       dispatch(setUser({ email: "", name: "", token: "" }));
     } catch (error) {

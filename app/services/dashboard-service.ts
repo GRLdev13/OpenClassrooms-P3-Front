@@ -116,8 +116,9 @@ export const dashBoardApi = createApi({
     deleteUser: builder.mutation<DeleteUserDTO, Partial<DeleteUserDTO>>({
       query: (user) => ({
         url: `user`,
-        method: "POST",
+        method: "DELETE",
         body: {
+          email:user.email,
           password: user.password,
           passwordConfirmation: user.passwordConfirmation,
         },

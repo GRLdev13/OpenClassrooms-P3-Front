@@ -6,7 +6,7 @@ import { UpdateUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useUpdateUserMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
-import DeleteUserConfirmationPopup from "./deleteConfirmationpopup";
+import DeleteUserConfirmationPopup from "~/user/settings/deleteConfirmationpopup";
 
 export default function UpdateUser() {
   const [name, setName] = useState("");
@@ -117,6 +117,7 @@ export default function UpdateUser() {
 
       {showDeletePopup && (
         <DeleteUserConfirmationPopup
+          email={storedEmail || email}
           onClose={() => setShowDeletePopup(false)}
         />
       )}

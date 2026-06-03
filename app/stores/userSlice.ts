@@ -7,9 +7,9 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  email: "",
-  name: "",
-  token:""
+  email: localStorage?.getItem("email") || "" ,
+  name: localStorage?.getItem("name") || "" ,
+  token: localStorage?.getItem("token") || ""
 };
 
 export const userSlice = createSlice({
