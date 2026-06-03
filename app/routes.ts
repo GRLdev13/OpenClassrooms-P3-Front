@@ -6,8 +6,8 @@ export default [
     route("login", "./routes/login-route.tsx"),
     route("register", "./routes/register-route.tsx"),
     route("dashboards", "./dashboard/dashboards.tsx"),
-    route("profile", "./routes/profile-route.tsx"),
-    route("settings", "./user/settings/menuSelector.tsx"),
+    route("settings", "./routes/settings-route.tsx"),
+    // route("settings", "./routes/profile-route.tsx"),
         //, [
     // child routes
     // index("./home.tsx"),

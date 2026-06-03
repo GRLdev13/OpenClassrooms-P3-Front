@@ -7,11 +7,13 @@ export abstract class Authentification {
 export class RegisterUserDTO extends Authentification {
   passwordConfirmation: string = "";
   name: string = "";
+  token:string = "";
 
   constructor(data: Partial<RegisterUserDTO> = {}) {
     super();
     this.name = data.name || "";
     this.email = data.email || "";
+    this.token = data.token || "";
     this.password = data.password || "";
     this.passwordConfirmation = data.passwordConfirmation || "";
   }
@@ -38,13 +40,28 @@ export class LoggedUserDTO extends Authentification {
   }
 }
 
-export class UpdateUserDTO extends Authentification {
+export class UpdateUserDTO  {
   name: string = "";
+  new_email: string = "";
+  old_email: string = "";
 
   constructor(data: Partial<UpdateUserDTO> = {}) {
-    super();
-    this.email = data.email || "";
+    this.new_email = data.new_email || "";
+    this.old_email = data.old_email || "";
     this.name = data.name || "";
+  }
+}
+
+export class UpdateUserPasswordDTO extends Authentification  {
+  new_password: string = "";
+  confirm_password: string = "";
+
+  constructor(data: Partial<UpdateUserPasswordDTO> = {}) {
+    super();
+    this.password = data.password || "";
+    this.confirm_password = data.confirm_password || "";
+    this.new_password = data.new_password || "";
+    this.email = data.email || "";
   }
 }
 

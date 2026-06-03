@@ -52,8 +52,9 @@ export default function Register() {
 
     try {
       const response = await putUser(userDTO).unwrap();
-      // Save user info to Redux
-      dispatch(setUser({ email, name }));
+      // Either login manually or auto login to new user with token and all
+      //
+      dispatch(setUser({ email:response.email, name:response.name,token:"" }));
       navigate("/login");
     } catch (error) {}
   };

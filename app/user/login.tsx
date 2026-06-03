@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { LoggedUserDTO, LoginUserDTO } from "~/DTO/UserDTO";
+import { LoginUserDTO } from "~/DTO/UserDTO";
 import { usePutLoginMutation } from "~/services/dashboard-service";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { setUser } from "~/stores/userSlice";
@@ -25,17 +25,14 @@ export default function Login() {
 
     try {
       const response = await putUser(userDTO).unwrap();
+      localStorage.setItem("token", response.token);
       // Save user info to Redux
       dispatch(
         setUser({
           email: response.email,
           name: response.name,
-          token: response.token,
         }),
       );
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("email", response.email);
-      localStorage.setItem("name", response.name);
       navigate("/dashboards");
     } catch (error) {}
   };

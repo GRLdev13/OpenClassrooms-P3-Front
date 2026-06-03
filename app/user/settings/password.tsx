@@ -2,8 +2,12 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 
-import { usePutLoginMutation } from "~/services/dashboard-service";
+import {
+  usePutLoginMutation,
+  useUpdateUserPasswordMutation,
+} from "~/services/dashboard-service";
 import ErrorComponent from "~/helpers/ErrorsComponent";
+import { UpdateUserPasswordDTO } from "~/DTO/UserDTO";
 
 export default function Password() {
   const [email, setEmail] = useState("");
@@ -11,19 +15,29 @@ export default function Password() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [putUser, { error, isLoading }] = usePutLoginMutation();
+  const [putPassword, { error, isLoading }] = useUpdateUserPasswordMutation();
   const navigate = useNavigate();
 
   const passwordsMatch = newPassword === confirmPassword;
   const isPasswordLongEnough = newPassword.length >= 8;
-  const isPasswordValid = newPassword.length > 0 && confirmPassword.length > 0 && passwordsMatch && isPasswordLongEnough;
+  const isPasswordValid =
+    newPassword.length > 0 &&
+    confirmPassword.length > 0 &&
+    passwordsMatch &&
+    isPasswordLongEnough;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    if (!isPasswordValid) {
-      return;
-    }
+
+    const updateUserPassword = new UpdateUserPasswordDTO({
+      confirm_password: confirmPassword,
+      new_password: newPassword,
+      password: password,
+      email: localStorage.getItem("email") as string || "ff"
+    });
+
+    await putPassword(updateUserPassword).unwrap();
+ 
   };
 
   return (
@@ -38,8 +52,8 @@ export default function Password() {
         <input
           id="currentPassword"
           type="password"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           required
           className="rounded border border-gray-300 px-3 py-2"
         />
@@ -73,12 +87,18 @@ export default function Password() {
         </div>
 
         {newPassword.length > 0 && !isPasswordLongEnough && (
-          <div className="text-center text-red-500">Password must be at least 8 characters</div>
+          <div className="text-center text-red-500">
+            Password must be at least 8 characters
+          </div>
         )}
 
-        {newPassword.length > 0 && confirmPassword.length > 0 && !passwordsMatch && (
-          <div className="text-center text-red-500">Passwords do not match</div>
-        )}
+        {newPassword.length > 0 &&
+          confirmPassword.length > 0 &&
+          !passwordsMatch && (
+            <div className="text-center text-red-500">
+              Passwords do not match
+            </div>
+          )}
 
         {error && <ErrorComponent error={error} />}
 

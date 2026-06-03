@@ -6,7 +6,7 @@ import { UpdateUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useUpdateUserMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
-import DeleteUserConfirmationPopup from "~/user/settings/deleteConfirmationpopup";
+import DeleteUserConfirmationPopup from "~/user/settings/deleteConfirmationPopup";
 
 export default function UpdateUser() {
   const [name, setName] = useState("");
@@ -29,43 +29,19 @@ export default function UpdateUser() {
     }
   }, [storedEmail, storedName]);
 
-  function mapError(error: any) {
-    if (!error) {
-      return "";
-    }
-
-    const erroring =
-      typeof error === "string" ? error : error?.data?.errors?.password;
-
-    if (erroring && Array.isArray(erroring)) {
-      return (
-        <div className="text-center">
-          <ul className="mb-4 text-red-500">
-            {erroring.map((errorMessage, index) => (
-              <li key={index}>{errorMessage}</li>
-            ))}
-          </ul>
-        </div>
-      );
-    } else {
-      return <div className="text-center">{erroring.error}</div>;
-    }
-  }
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-
     const userDTO = new UpdateUserDTO({
       name,
-      email,
+      new_email: email, //if user entered something
+      old_email: storedEmail //old email for loggin in sake
     });
 
     try {
       await putUserUser(userDTO).unwrap();
-      if (userDTO.email != storedEmail || userDTO.name != storedName) {
-        dispatch(setUser({ email: userDTO.email, name: userDTO.name, token:"" })); //requires news login ? or re-fetch login directly from back-end
-      }
+
+        dispatch(setUser({ email: storedEmail != email ? email : storedEmail, name: userDTO.name })); //requires news login ? or re-fetch login directly from back-end
     } catch (error) {}
   };
 
@@ -117,7 +93,7 @@ export default function UpdateUser() {
 
       {showDeletePopup && (
         <DeleteUserConfirmationPopup
-          email={storedEmail || email}
+          email={storedEmail}
           onClose={() => setShowDeletePopup(false)}
         />
       )}

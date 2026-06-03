@@ -9,10 +9,12 @@ import type {
   UpdateUserDTO,
   LoggedUserDTO,
   DeleteUserDTO,
+  UpdateUserPasswordDTO,
 } from "~/DTO/UserDTO";
 import { useSelector } from "react-redux";
 import { userSlice } from "~/stores/userSlice";
 import type { RootState } from "@reduxjs/toolkit/query";
+import type Password from "~/user/settings/password";
 //XSRF token shennanigans
 // let token_headers = "";
 
@@ -62,6 +64,7 @@ export const dashBoardApi = createApi({
         "Authorization",
         `Bearer ${state?.user?.token ? state?.user?.token : lToken}`,
       );
+      console.log("token set ?", state?.user?.token ? state?.user?.token : lToken);
       //TODO: XSRF token + laravel token
     },
   }),
@@ -109,7 +112,20 @@ export const dashBoardApi = createApi({
         method: "POST",
         body: {
           name: user.name,
+          new_email: user.new_email,
+          old_email: user.old_email,
+        },
+      }),
+    }),
+      updateUserPassword: builder.mutation<boolean, Partial<UpdateUserPasswordDTO>>({
+      query: (user) => ({
+        url: `user/password`,
+        method: "POST",
+        body: { 
           email: user.email,
+          password: user.password,
+          new_password: user.new_password,
+          confirm_password: user.confirm_password,
         },
       }),
     }),
@@ -161,5 +177,6 @@ export const { usePutTagMutation } = dashBoardApi;
 export const { usePutLoginMutation } = dashBoardApi;
 export const { usePutRegisterMutation } = dashBoardApi;
 export const { useUpdateUserMutation } = dashBoardApi;
+export const { useUpdateUserPasswordMutation } = dashBoardApi;
 export const { useDeleteUserMutation } = dashBoardApi;
 export const { useDeleteNoteMutation } = dashBoardApi;

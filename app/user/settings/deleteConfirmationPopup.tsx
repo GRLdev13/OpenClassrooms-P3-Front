@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import { DeleteUserDTO } from "~/DTO/UserDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useDeleteUserMutation } from "~/services/dashboard-service";
-import { setUser } from "~/stores/userSlice";
+import { setUser, clearUser } from "~/stores/userSlice";
+
+
 
 type DeleteUserConfirmationPopupProps = {
   email: string;
@@ -41,12 +43,10 @@ export default function DeleteUserConfirmationPopup({
 
     try {
       await deleteUser(deleteUserDTO).unwrap();
-      localStorage.removeItem("token");
       onClose();
-      navigate("../login");
-      //TODO: maybe call delete user function from dispatch
-      dispatch(setUser({ email: "", name: "", token: "" }));
-    } catch (error) {
+      dispatch(clearUser());
+      navigate("/login");
+} catch (error) {
       console.log("error?", error);
     }
   };
