@@ -15,6 +15,8 @@ export default function Dashboards() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [isLoader, setIsLoader] = useState(false);
+
   const logout = () => {
     dispatch(clearUser());
     navigate("/login");
@@ -22,23 +24,13 @@ export default function Dashboards() {
 
   useEffect(() => {
     if (!isLoading && data) {
+      setIsLoader(false);
       setDashboard(data);
     }
   }, [data, isLoading]);
 
   if (error) {
     return <ErrorComponent error={error} />;
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center pt-16 pb-4 h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -49,16 +41,35 @@ export default function Dashboards() {
           onClick={logout}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
         >
-          loggout
+          logout
         </button>
         {dashboard?.tags && dashboard?.tags.length > 0 ? (
-          <AddNote tags={dashboard?.tags} onNoteCreated={refetch}></AddNote>
+          <AddNote
+            tags={dashboard?.tags}
+            onNoteCreated={() => {
+              refetch();
+              setIsLoader(true);
+            }}
+          ></AddNote>
         ) : (
           <></>
         )}
         <AddTag></AddTag>
-        {dashboard?.notes && dashboard?.notes.length > 0 ? (
-          <NotesList notes={dashboard.notes} onNoteDeleted={refetch} />
+        {isLoader || isLoading ? (
+          <div className="flex items-center justify-center pt-16 pb-4 h-screen">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading dashboard...</p>
+            </div>
+          </div>
+        ) : dashboard?.notes && dashboard?.notes.length > 0 ? (
+          <NotesList
+            notes={dashboard.notes}
+            onNoteDeleted={() => {
+              refetch();
+              setIsLoader(true);
+            }}
+          />
         ) : (
           <div className="text-center">
             <p className="text-gray-500 mb-4">No notes available</p>

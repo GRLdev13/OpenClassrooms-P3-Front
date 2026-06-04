@@ -1,14 +1,27 @@
 
 import Dashboards from "~/dashboard/dashboards";
-
-export function meta() {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+import MenuSelector from "~/user/settings/menuSelector";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Dashboard() {
+
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    setIsAuthenticated(true);
+  }, [navigate]);
+
+  if (!isAuthenticated) {
+         navigate("/login", { replace: true });
+  }
+
   return (
       <Dashboards />
   );

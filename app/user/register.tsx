@@ -54,7 +54,7 @@ export default function Register() {
       const response = await putUser(userDTO).unwrap();
       // Either login manually or auto login to new user with token and all
       //
-      dispatch(setUser({ email:response.email, name:response.name,token:"" }));
+      dispatch(setUser({ email:response.email, name:response.name }));
       navigate("/login");
     } catch (error) {}
   };

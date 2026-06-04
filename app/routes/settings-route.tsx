@@ -1,13 +1,6 @@
-import MenuSelector from "~/user/settings/menuSelector";
+import Profile from "~/user/profile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
-export function meta() {
-  return [
-    { title: "Settings" },
-    { name: "description", content: "Manage your account settings" },
-  ];
-}
 
 export default function SettingsRoute() {
   const navigate = useNavigate();
@@ -23,8 +16,8 @@ export default function SettingsRoute() {
   }, [navigate]);
 
   if (!isAuthenticated) {
-    return null;
+    navigate("/login", { replace: true });
   }
 
-  return <MenuSelector />;
+  return <Profile />;
 }

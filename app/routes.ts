@@ -5,7 +5,7 @@ export default [
     //TODO: check middleware for auth routing
     route("login", "./routes/login-route.tsx"),
     route("register", "./routes/register-route.tsx"),
-    route("dashboards", "./dashboard/dashboards.tsx"),
+    route("dashboards", "./routes/dashboard-route.tsx"),
     route("settings", "./routes/settings-route.tsx"),
     // route("settings", "./routes/profile-route.tsx"),
         //, [
