@@ -5,7 +5,7 @@ import NotesList from "./notes-list";
 import AddNote from "./add-note";
 import AddTag from "./add-tag";
 import SideBar from "./side-bar";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { clearUser } from "~/stores/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";

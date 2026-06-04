@@ -14,7 +14,7 @@ import type {
 import { useSelector } from "react-redux";
 import { userSlice } from "~/stores/userSlice";
 import type { RootState } from "@reduxjs/toolkit/query";
-import type Password from "~/user/settings/password";
+import type Password from "~/views/user/settings/password";
 //XSRF token shennanigans
 // let token_headers = "";
 

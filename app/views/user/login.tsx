@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { LoginUserDTO } from "~/DTO/UserDTO";
 import { usePutLoginMutation } from "~/services/dashboard-service";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { setUser } from "~/stores/userSlice";
 
 export default function Login() {

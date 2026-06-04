@@ -1,6 +1,5 @@
 
-import Dashboards from "~/dashboard/dashboards";
-import MenuSelector from "~/user/settings/menuSelector";
+import Dashboards from "~/views/dashboard/dashboards";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 

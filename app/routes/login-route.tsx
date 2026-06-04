@@ -1,4 +1,4 @@
-import Login from "~/user/login";
+import Login from "~/views/user/login";
 
 export function meta() {
   return [

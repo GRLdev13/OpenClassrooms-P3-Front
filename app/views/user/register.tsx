@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { RegisterUserDTO } from "~/DTO/UserDTO";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { usePutRegisterMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
 

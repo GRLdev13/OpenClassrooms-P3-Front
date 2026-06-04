@@ -1,4 +1,4 @@
-import Register from "~/user/register";
+import Register from "~/views/user/register";
 
 export function meta() {
   return [

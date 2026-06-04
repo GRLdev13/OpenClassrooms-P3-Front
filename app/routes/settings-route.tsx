@@ -1,8 +1,8 @@
-import Profile from "~/user/profile";
+import Profile from "~/views/user/profile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import SideBar from "~/dashboard/side-bar";
+import SideBar from "~/views/dashboard/side-bar";
 import { clearUser } from "~/stores/userSlice";
 
 export default function SettingsRoute() {

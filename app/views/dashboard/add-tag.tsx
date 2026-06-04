@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { usePutTagMutation } from "~/services/dashboard-service";
 import { AddTagDTO } from "~/DTO/TagDTO";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 
 type AddTagProps = {
   onTagCreated: () => void;

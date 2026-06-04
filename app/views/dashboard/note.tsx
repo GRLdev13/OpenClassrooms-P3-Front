@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DeleteNoteDTO } from "~/DTO/NotesDTO";
 import type { NotesDTO } from "~/DTO/NotesDTO";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { useDeleteNoteMutation } from "~/services/dashboard-service";
 
 type NoteProps = {

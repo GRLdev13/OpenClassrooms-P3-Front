@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 
 import { useUpdateUserPasswordMutation } from "~/services/dashboard-service";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { UpdateUserPasswordDTO } from "~/DTO/UserDTO";
 
 export default function Password() {

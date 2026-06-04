@@ -3,10 +3,10 @@ import type { FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { UpdateUserDTO } from "~/DTO/UserDTO";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { useUpdateUserMutation } from "~/services/dashboard-service";
 import { setUser } from "~/stores/userSlice";
-import DeleteUserConfirmationPopup from "~/user/settings/deleteConfirmationPopup";
+import DeleteUserConfirmationPopup from "~/views/user/settings/deleteConfirmationPopup";
 
 export default function UpdateUser() {
   const [name, setName] = useState("");

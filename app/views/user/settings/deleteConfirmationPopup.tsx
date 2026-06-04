@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DeleteUserDTO } from "~/DTO/UserDTO";
-import ErrorComponent from "~/helpers/ErrorsComponent";
+import ErrorComponent from "~/views/helpers/ErrorsComponent";
 import { useDeleteUserMutation } from "~/services/dashboard-service";
 import { clearUser } from "~/stores/userSlice";
 
