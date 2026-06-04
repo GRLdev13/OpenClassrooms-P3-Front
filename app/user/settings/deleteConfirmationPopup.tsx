@@ -7,8 +7,6 @@ import ErrorComponent from "~/helpers/ErrorsComponent";
 import { useDeleteUserMutation } from "~/services/dashboard-service";
 import { setUser, clearUser } from "~/stores/userSlice";
 
-
-
 type DeleteUserConfirmationPopupProps = {
   email: string;
   onClose: () => void;
@@ -23,8 +21,8 @@ export default function DeleteUserConfirmationPopup({
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [deleteUser, { error, isLoading }] = useDeleteUserMutation();
 
+  const [deleteUser, { error, isLoading }] = useDeleteUserMutation();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -46,7 +44,7 @@ export default function DeleteUserConfirmationPopup({
       onClose();
       dispatch(clearUser());
       navigate("/login");
-} catch (error) {
+    } catch (error) {
       console.log("error?", error);
     }
   };

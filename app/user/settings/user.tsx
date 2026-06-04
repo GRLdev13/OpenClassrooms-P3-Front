@@ -46,49 +46,72 @@ export default function UpdateUser() {
   };
 
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
+    <>
+      <div>
+        <h2 className="text-sm font-medium text-zinc-800 dark:text-white">
+          Profile information
+        </h2>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-white/70">
+          Update your name and email address
+        </p>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-md flex-col gap-4"
+        className="mt-6 flex w-full max-w-lg flex-col gap-6"
       >
-        <h1 className="text-2xl font-bold">Update User</h1>
+        <div>
+          <label
+            htmlFor="name"
+            className="mb-3 inline-flex items-center text-sm font-medium text-zinc-800 dark:text-white"
+          >
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            required
+            className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
+          />
+        </div>
 
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-          className="rounded border border-gray-300 px-3 py-2"
-        />
-
-        <label htmlFor="email">Email address</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-          className="rounded border border-gray-300 px-3 py-2"
-        />
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-3 inline-flex items-center text-sm font-medium text-zinc-800 dark:text-white"
+          >
+            Email address
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
+          />
+        </div>
 
         {error && <ErrorComponent error={error} />}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "Updating..." : "Update user"}
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowDeletePopup(true)}
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          Delete user
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-black/10 bg-zinc-900 px-4 text-sm font-medium text-white shadow-xs transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-75 dark:border-0 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          >
+            {isLoading ? "Updating..." : "Save"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowDeletePopup(true)}
+            className="inline-flex h-10 items-center justify-center rounded-lg bg-red-500 px-4 text-sm font-medium text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-75"
+          >
+            Delete user
+          </button>
+        </div>
       </form>
 
       {showDeletePopup && (
@@ -97,6 +120,6 @@ export default function UpdateUser() {
           onClose={() => setShowDeletePopup(false)}
         />
       )}
-    </main>
+    </>
   );
 }

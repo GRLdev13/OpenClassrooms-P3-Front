@@ -1,22 +1,16 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
 
-import {
-  usePutLoginMutation,
-  useUpdateUserPasswordMutation,
-} from "~/services/dashboard-service";
+import { useUpdateUserPasswordMutation } from "~/services/dashboard-service";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 import { UpdateUserPasswordDTO } from "~/DTO/UserDTO";
 
 export default function Password() {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [putPassword, { error, isLoading }] = useUpdateUserPasswordMutation();
-  const navigate = useNavigate();
 
   const passwordsMatch = newPassword === confirmPassword;
   const isPasswordLongEnough = newPassword.length >= 8;
@@ -33,61 +27,92 @@ export default function Password() {
       confirm_password: confirmPassword,
       new_password: newPassword,
       password: password,
-      email: localStorage.getItem("email") as string || "ff"
+      email: (localStorage.getItem("email") as string) || "ff",
     });
 
     await putPassword(updateUserPassword).unwrap();
- 
   };
 
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
+    <>
+      <div>
+        <h2 className="text-sm font-medium text-zinc-800 dark:text-white">
+          Update password
+        </h2>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-white/70">
+          Ensure your account is using a long, random password to stay secure
+        </p>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-md flex-col gap-4"
+        className="mt-6 flex w-full max-w-lg flex-col gap-6"
       >
-        <h1 className="text-2xl font-bold">Change Password</h1>
-
-        <label htmlFor="currentPassword">Current Password</label>
-        <input
-          id="currentPassword"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-          className="rounded border border-gray-300 px-3 py-2"
-        />
-
-        <label htmlFor="newPassword">New Password</label>
-        <div className="flex gap-2">
+        <div>
+          <label
+            htmlFor="currentPassword"
+            className="mb-3 inline-flex items-center text-sm font-medium text-zinc-800 dark:text-white"
+          >
+            Current password
+          </label>
           <input
-            id="newPassword"
-            type={showPassword ? "text" : "password"}
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
+            id="currentPassword"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             required
-            className="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2"
+            autoComplete="current-password"
+            className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
           />
+        </div>
+
+        <div>
+          <label
+            htmlFor="newPassword"
+            className="mb-3 inline-flex items-center text-sm font-medium text-zinc-800 dark:text-white"
+          >
+            New password
+          </label>
+          <div className="flex gap-2 max-sm:flex-col">
+            <input
+              id="newPassword"
+              type={showPassword ? "text" : "password"}
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              required
+              autoComplete="new-password"
+              className="block h-10 min-w-0 flex-1 rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              className="inline-flex h-10 items-center justify-center rounded-lg bg-transparent px-4 text-sm font-medium text-zinc-500 transition hover:bg-zinc-800/5 hover:text-zinc-800 dark:text-white/80 dark:hover:bg-white/15 dark:hover:text-white"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="mb-3 inline-flex items-center text-sm font-medium text-zinc-800 dark:text-white"
+          >
+            Confirm password
+          </label>
           <input
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             required
-            className="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2"
-            placeholder="Confirm password"
+            autoComplete="new-password"
+            className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword((value) => !value)}
-            className="rounded bg-gray-200 px-3 py-2 text-gray-900"
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
         </div>
 
         {newPassword.length > 0 && !isPasswordLongEnough && (
-          <div className="text-center text-red-500">
+          <div className="text-sm font-medium text-red-500 dark:text-red-400">
             Password must be at least 8 characters
           </div>
         )}
@@ -95,7 +120,7 @@ export default function Password() {
         {newPassword.length > 0 &&
           confirmPassword.length > 0 &&
           !passwordsMatch && (
-            <div className="text-center text-red-500">
+            <div className="text-sm font-medium text-red-500 dark:text-red-400">
               Passwords do not match
             </div>
           )}
@@ -105,11 +130,11 @@ export default function Password() {
         <button
           type="submit"
           disabled={isLoading || !isPasswordValid}
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="inline-flex h-10 w-fit items-center justify-center rounded-lg border border-black/10 bg-zinc-900 px-4 text-sm font-medium text-white shadow-xs transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-75 dark:border-0 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
-          {isLoading ? "Updating..." : "Update Password"}
+          {isLoading ? "Updating..." : "Save"}
         </button>
       </form>
-    </main>
+    </>
   );
 }
