@@ -42,7 +42,7 @@ export default function Dashboards() {
                 Dashboard
               </h1>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Create, tag, and manage your notes.
+                Manage your notes and tags.
               </p>
             </div>
           </header>

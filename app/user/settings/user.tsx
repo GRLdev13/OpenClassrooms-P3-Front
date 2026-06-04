@@ -12,6 +12,7 @@ export default function UpdateUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [putUserUser, { error, isLoading }] = useUpdateUserMutation();
   const dispatch = useDispatch();
 
@@ -31,17 +32,24 @@ export default function UpdateUser() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSuccessMessage("");
 
     const userDTO = new UpdateUserDTO({
       name,
       new_email: email, //if user entered something
-      old_email: storedEmail //old email for loggin in sake
+      old_email: storedEmail, //old email for loggin in sake
     });
 
     try {
       await putUserUser(userDTO).unwrap();
 
-        dispatch(setUser({ email: storedEmail != email ? email : storedEmail, name: userDTO.name })); //requires news login ? or re-fetch login directly from back-end
+      dispatch(
+        setUser({
+          email: storedEmail != email ? email : storedEmail,
+          name: userDTO.name,
+        }),
+      ); //requires news login ? or re-fetch login directly from back-end
+      setSuccessMessage("Profile updated successfully.");
     } catch (error) {}
   };
 
@@ -71,7 +79,10 @@ export default function UpdateUser() {
             id="name"
             type="text"
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) => {
+              setName(event.target.value);
+              setSuccessMessage("");
+            }}
             required
             className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
           />
@@ -88,13 +99,21 @@ export default function UpdateUser() {
             id="email"
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setSuccessMessage("");
+            }}
             required
             className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
           />
         </div>
 
         {error && <ErrorComponent error={error} />}
+        {successMessage && (
+          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            {successMessage}
+          </p>
+        )}
 
         <div className="flex flex-wrap items-center gap-3">
           <button

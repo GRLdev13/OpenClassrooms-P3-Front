@@ -10,6 +10,7 @@ export default function Password() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [putPassword, { error, isLoading }] = useUpdateUserPasswordMutation();
 
   const passwordsMatch = newPassword === confirmPassword;
@@ -22,6 +23,7 @@ export default function Password() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSuccessMessage("");
 
     const updateUserPassword = new UpdateUserPasswordDTO({
       confirm_password: confirmPassword,
@@ -31,6 +33,10 @@ export default function Password() {
     });
 
     await putPassword(updateUserPassword).unwrap();
+    setPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setSuccessMessage("Password updated successfully.");
   };
 
   return (
@@ -59,7 +65,10 @@ export default function Password() {
             id="currentPassword"
             type="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setSuccessMessage("");
+            }}
             required
             autoComplete="current-password"
             className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
@@ -78,7 +87,10 @@ export default function Password() {
               id="newPassword"
               type={showPassword ? "text" : "password"}
               value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
+              onChange={(event) => {
+                setNewPassword(event.target.value);
+                setSuccessMessage("");
+              }}
               required
               autoComplete="new-password"
               className="block h-10 min-w-0 flex-1 rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
@@ -104,7 +116,10 @@ export default function Password() {
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
             value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
+            onChange={(event) => {
+              setConfirmPassword(event.target.value);
+              setSuccessMessage("");
+            }}
             required
             autoComplete="new-password"
             className="block h-10 w-full rounded-lg border border-zinc-200 border-b-zinc-300/80 bg-white px-3 py-2 text-base leading-[1.375rem] text-zinc-700 shadow-xs placeholder-zinc-400 disabled:text-zinc-500 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:placeholder-zinc-400 sm:text-sm"
@@ -126,6 +141,11 @@ export default function Password() {
           )}
 
         {error && <ErrorComponent error={error} />}
+        {successMessage && (
+          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            {successMessage}
+          </p>
+        )}
 
         <button
           type="submit"

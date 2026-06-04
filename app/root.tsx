@@ -39,7 +39,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Link
           to="/"
         >
-          Main
         </Link>
         <Provider store={store}>{children}</Provider>
         <ScrollRestoration />

@@ -23,7 +23,6 @@ export default function Note({ note, onNoteDeleted }: NoteProps) {
       onNoteDeleted();
     } catch (error) {
       console.log("error:", error);
-      //TODO: map error message. + error?.data?.message
       setErrorMessage(error as any);
     }
   };
