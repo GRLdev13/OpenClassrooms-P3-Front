@@ -10,7 +10,10 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 export default function Dashboards() {
-  const { data, error, isFetching, isLoading, refetch} = useGetDashboardQuery("dashboard", { refetchOnMountOrArgChange: true });
+  const { data, error, isFetching, isLoading, refetch } = useGetDashboardQuery(
+    "dashboard",
+    { refetchOnMountOrArgChange: true },
+  );
   const [dashboard, setDashboard] = useState<DashBoardDTO | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,45 +34,85 @@ export default function Dashboards() {
   }
 
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      <div className="w-full max-w-2xl">
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-        <button
-          onClick={logout}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-        >
-          logout
-        </button>
-        {dashboard?.tags && dashboard?.tags.length > 0 ? (
-          <AddNote
-            tags={dashboard?.tags}
-            onNoteCreated={() => {
-              refetch();
-            }}
-          ></AddNote>
-        ) : (
-          <></>
-        )}
-        <AddTag></AddTag>
-        {isFetching || isLoading ? (
-          <div className="flex items-center justify-center pt-16 pb-4 h-screen">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading dashboard...</p>
-            </div>
+    <main className="[grid-area:main] min-h-screen bg-white p-6 dark:bg-zinc-950 lg:p-8">
+      <div className="mx-auto flex h-full w-full max-w-4xl flex-1 flex-col gap-4 rounded-xl">
+        <header className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+              Dashboard
+            </h1>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Create, tag, and manage your notes.
+            </p>
           </div>
-        ) : dashboard?.notes && dashboard?.notes.length > 0 ? (
-          <NotesList
-            notes={dashboard.notes}
-            onNoteDeleted={() => {
-              refetch();
-            }}
-          />
-        ) : (
-          <div className="text-center">
-            <p className="text-gray-500 mb-4">No notes available</p>
+          <button
+            type="button"
+            onClick={logout}
+            className="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+          >
+            Logout
+          </button>
+        </header>
+
+        <section className="mt-6 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900">
+          <div className="space-y-4">
+            {dashboard?.tags && dashboard.tags.length > 0 ? (
+              <AddNote
+                tags={dashboard.tags}
+                onNoteCreated={() => {
+                  refetch();
+                }}
+              />
+            ) : (
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                Add a tag before creating your first note.
+              </p>
+            )}
+
+            <hr className="border-neutral-200 dark:border-neutral-700" />
+
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
+              Your Notes
+            </h2>
+
+            {isFetching || isLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <div className="text-center">
+                  <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    Loading dashboard...
+                  </p>
+                </div>
+              </div>
+            ) : dashboard?.notes && dashboard.notes.length > 0 ? (
+              <NotesList
+                notes={dashboard.notes}
+                onNoteDeleted={() => {
+                  refetch();
+                }}
+              />
+            ) : (
+              <div className="rounded-lg border border-dashed border-neutral-200 p-6 text-center dark:border-neutral-700">
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  No notes available
+                </p>
+              </div>
+            )}
           </div>
-        )}
+        </section>
+
+        <section className="mt-6 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900">
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
+              Add a tag
+            </h2>
+            <AddTag
+              onTagCreated={() => {
+                refetch();
+              }}
+            />
+          </div>
+        </section>
       </div>
     </main>
   );

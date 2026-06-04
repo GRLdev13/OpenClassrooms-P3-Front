@@ -1,36 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { usePutTagMutation } from "~/services/dashboard-service";
-import { Tag, AddTagDTO } from "~/DTO/TagDTO";
+import { AddTagDTO } from "~/DTO/TagDTO";
 import ErrorComponent from "~/helpers/ErrorsComponent";
 
-type TagsProps = {
-  tags: AddTagDTO[];
+type AddTagProps = {
+  onTagCreated: () => void;
 };
 
-export default function AddTag() {
+export default function AddTag({ onTagCreated }: AddTagProps) {
   const [text, setText] = useState("");
 
-  const [putTag, { data, error, isLoading }] = usePutTagMutation();
-  const handleSubmit = async (event: any) => {
+  const [putTag, { error, isLoading }] = usePutTagMutation();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const tagDTO = new AddTagDTO({ name: text });
-    //use mutation for manual api call
     await putTag(tagDTO).unwrap();
+    setText("");
+    onTagCreated();
   };
 
   return (
-    <form onSubmit={(x) => handleSubmit(x)}>
-      <textarea
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <input
+        type="text"
         value={text}
         onChange={(event) => setText(event.target.value)}
-        placeholder="Add a tag"
+        placeholder="New tag name"
         required
+        className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-zinc-800 placeholder-zinc-400 outline-none transition focus:border-blue-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-white dark:placeholder-zinc-500"
       />
-      <label htmlFor="tags">Tags</label>
       {error && <ErrorComponent error={error} />}
-      <button type="submit" style={{ backgroundColor: "blue", color: "white" }}>
-        Submit
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-400"
+      >
+        {isLoading ? "Adding..." : "Add Tag"}
       </button>
     </form>
   );

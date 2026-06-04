@@ -9,7 +9,6 @@ type NotesListProps = {
 export default function NotesList({ notes, onNoteDeleted }: NotesListProps) {
   return (
     <ul className="space-y-3">
-      Your Notes
       {notes.map((note, index) => (
         <Note
           key={note.id ? note.id : index}
