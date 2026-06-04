@@ -1,83 +1,83 @@
-import logoDark from "./logo-dark.svg";
-import logoLight from "./logo-light.svg";
 import { Link } from "react-router";
+
+const navLinks = [
+  { to: "/dashboards", label: "Dashboards" },
+  { to: "/login", label: "Login" },
+  { to: "/register", label: "Register" },
+  { to: "/settings", label: "Settings" },
+];
 
 export function Welcome() {
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
-        <ul>
-          {/* <button onClick={debug}>debug</button> */}
-          <li>
-            <Link
-              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-              to="/dashboards"
+    <div className="min-h-screen bg-[#FDFDFC] py-6 dark:bg-[#0a0a0a]">
+      <header className="mx-auto mb-6 w-full max-w-[335px] px-4 pt-6 text-sm lg:max-w-4xl">
+        <nav className="flex items-center justify-between gap-4">
+          <Link
+            className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm font-medium leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+            to="/"
+          >
+            Renote
+          </Link>
+          <ul className="flex items-center gap-4">
+            {navLinks.map((link) => (
+              <li key={link.to}>
+                <Link
+                  className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                  to={link.to}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </header>
+
+      <div className="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 starting:opacity-0 lg:grow">
+        <main className="flex w-full max-w-[335px] flex-col-reverse lg:max-w-4xl lg:flex-row">
+          <div className="flex-1 rounded-ee-lg rounded-es-lg bg-white p-6 pb-12 text-[13px] leading-[20px] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] lg:rounded-ee-none lg:rounded-ss-lg lg:p-20">
+            <h1 className="mb-1 font-medium">Renote</h1>
+            <p className="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
+              Renote is the best application to take notes.
+              <br />
+              Create, save, delete your notes.
+              <br />
+              Add tags to your notes.
+            </p>
+          </div>
+          <div className="relative -mb-px aspect-[335/376] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] dark:bg-[#1D0002] lg:-ms-px lg:mb-0 lg:aspect-auto lg:w-[438px] lg:rounded-e-lg! lg:rounded-t-none">
+            <svg
+              width="300"
+              height="300"
+              viewBox="0 0 300 300"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              Dashboards
-            </Link>
-            <Link
-              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-              to="/login"
-            >
-              Login
-            </Link>
-            <Link
-              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-              to="/register"
-            >
-              Register
-            </Link>
-            <Link
-              className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-              to="/settings"
-            >
-              Settings
-            </Link>
-          </li>
-        </ul>
+              <defs>
+                <linearGradient id="layerGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FFD700" />
+                  <stop offset="100%" stopColor="#FF69B4" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M78 258V58H158C208 58 238 88 238 128C238 158 218 183 188 193L243 258H198L153 203H118V258H78Z
+                M118 88V173H158C183 173 198 158 198 128C198 98 183 88 158 88H118Z"
+                fill="black"
+                opacity="0.5"
+                transform="translate(8,8)"
+              />
+              <path
+                d="M70 250V50H150C200 50 230 80 230 120C230 150 210 175 180 185L235 250H190L145 195H110V250H70Z
+                M110 80V165H150C175 165 190 150 190 120C190 90 175 80 150 80H110Z"
+                fill="url(#layerGradient)"
+                stroke="#1B1B18"
+                strokeWidth="4"
+              />
+            </svg>
+
+            <div className="absolute inset-0 rounded-t-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] lg:rounded-e-lg lg:rounded-t-none"></div>
+          </div>
+        </main>
       </div>
-    </main>
+    </div>
   );
 }
-
-const resources = [
-  {
-    href: "https://reactrouter.com/docs",
-    text: "React Router Docs",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
-      >
-        <path
-          d="M9.99981 10.0751V9.99992M17.4688 17.4688C15.889 19.0485 11.2645 16.9853 7.13958 12.8604C3.01467 8.73546 0.951405 4.11091 2.53116 2.53116C4.11091 0.951405 8.73546 3.01467 12.8604 7.13958C16.9853 11.2645 19.0485 15.889 17.4688 17.4688ZM2.53132 17.4688C0.951566 15.8891 3.01483 11.2645 7.13974 7.13963C11.2647 3.01471 15.8892 0.951453 17.469 2.53121C19.0487 4.11096 16.9854 8.73551 12.8605 12.8604C8.73562 16.9853 4.11107 19.0486 2.53132 17.4688Z"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "https://rmx.as/discord",
-    text: "Join Discord",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 24 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
-      >
-        <path
-          d="M15.0686 1.25995L14.5477 1.17423L14.2913 1.63578C14.1754 1.84439 14.0545 2.08275 13.9422 2.31963C12.6461 2.16488 11.3406 2.16505 10.0445 2.32014C9.92822 2.08178 9.80478 1.84975 9.67412 1.62413L9.41449 1.17584L8.90333 1.25995C7.33547 1.51794 5.80717 1.99419 4.37748 2.66939L4.19 2.75793L4.07461 2.93019C1.23864 7.16437 0.46302 11.3053 0.838165 15.3924L0.868838 15.7266L1.13844 15.9264C2.81818 17.1714 4.68053 18.1233 6.68582 18.719L7.18892 18.8684L7.50166 18.4469C7.96179 17.8268 8.36504 17.1824 8.709 16.4944L8.71099 16.4904C10.8645 17.0471 13.128 17.0485 15.2821 16.4947C15.6261 17.1826 16.0293 17.8269 16.4892 18.4469L16.805 18.8725L17.3116 18.717C19.3056 18.105 21.1876 17.1751 22.8559 15.9238L23.1224 15.724L23.1528 15.3923C23.5873 10.6524 22.3579 6.53306 19.8947 2.90714L19.7759 2.73227L19.5833 2.64518C18.1437 1.99439 16.6386 1.51826 15.0686 1.25995ZM16.6074 10.7755L16.6074 10.7756C16.5934 11.6409 16.0212 12.1444 15.4783 12.1444C14.9297 12.1444 14.3493 11.6173 14.3493 10.7877C14.3493 9.94885 14.9378 9.41192 15.4783 9.41192C16.0471 9.41192 16.6209 9.93851 16.6074 10.7755ZM8.49373 12.1444C7.94513 12.1444 7.36471 11.6173 7.36471 10.7877C7.36471 9.94885 7.95323 9.41192 8.49373 9.41192C9.06038 9.41192 9.63892 9.93712 9.6417 10.7815C9.62517 11.6239 9.05462 12.1444 8.49373 12.1444Z"
-          strokeWidth="1.5"
-        />
-      </svg>
-    ),
-  },
-];
