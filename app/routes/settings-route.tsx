@@ -16,7 +16,7 @@ export default function SettingsRoute() {
   }, [navigate]);
 
   if (!isAuthenticated) {
-    navigate("/login", { replace: true });
+       return null;
   }
 
   return <Profile />;

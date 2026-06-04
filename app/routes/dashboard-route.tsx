@@ -19,7 +19,7 @@ export default function Dashboard() {
   }, [navigate]);
 
   if (!isAuthenticated) {
-         navigate("/login", { replace: true });
+    return null;
   }
 
   return (

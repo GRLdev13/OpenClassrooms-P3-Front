@@ -68,6 +68,7 @@ export const dashBoardApi = createApi({
       //TODO: XSRF token + laravel token
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getLaravelToken: builder.query<Token, string>({
       query: (name) => `token`,

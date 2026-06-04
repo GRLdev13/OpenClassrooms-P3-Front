@@ -10,12 +10,10 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 export default function Dashboards() {
-  const { data, error, isLoading, refetch } = useGetDashboardQuery("dashboard");
+  const { data, error, isFetching, isLoading, refetch} = useGetDashboardQuery("dashboard", { refetchOnMountOrArgChange: true });
   const [dashboard, setDashboard] = useState<DashBoardDTO | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [isLoader, setIsLoader] = useState(false);
 
   const logout = () => {
     dispatch(clearUser());
@@ -24,10 +22,9 @@ export default function Dashboards() {
 
   useEffect(() => {
     if (!isLoading && data) {
-      setIsLoader(false);
       setDashboard(data);
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, refetch]);
 
   if (error) {
     return <ErrorComponent error={error} />;
@@ -48,14 +45,13 @@ export default function Dashboards() {
             tags={dashboard?.tags}
             onNoteCreated={() => {
               refetch();
-              setIsLoader(true);
             }}
           ></AddNote>
         ) : (
           <></>
         )}
         <AddTag></AddTag>
-        {isLoader || isLoading ? (
+        {isFetching || isLoading ? (
           <div className="flex items-center justify-center pt-16 pb-4 h-screen">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
@@ -67,7 +63,6 @@ export default function Dashboards() {
             notes={dashboard.notes}
             onNoteDeleted={() => {
               refetch();
-              setIsLoader(true);
             }}
           />
         ) : (
