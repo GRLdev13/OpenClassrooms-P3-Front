@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router";
 
 interface UserState {
   email: string;
