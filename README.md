@@ -1,18 +1,14 @@
-# Welcome to React Router!
+# Renote
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Renote is a note management application intended to help users create notes, visualize and organize their notes, work with tags, and manage user access through login, registration, dashboard, and settings flows.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Application Routes
 
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- `/` - Home page
+- `/login` - User login
+- `/register` - User registration
+- `/dashboards` - Dashboard for viewing and managing notes
+- `/settings` - User and application settings
 
 ## Getting Started
 
