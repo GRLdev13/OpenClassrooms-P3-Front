@@ -11,44 +11,6 @@ import type {
   DeleteUserDTO,
   UpdateUserPasswordDTO,
 } from "~/DTO/UserDTO";
-import { useSelector } from "react-redux";
-import { userSlice } from "~/stores/userSlice";
-import type { RootState } from "@reduxjs/toolkit/query";
-import type Password from "~/views/user/settings/password";
-//XSRF token shennanigans
-// let token_headers = "";
-
-// async function httpGetAsync(): Promise<Token | any> {
-//   var xmlHttp = new XMLHttpRequest();
-//   let toto = (xmlHttp.onreadystatechange = function () {
-//     if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-//       return xmlHttp.response as Token;
-//   });
-//   xmlHttp.open("GET", "http://back.test/token", true); // true for asynchronous
-//   xmlHttp.send(null);
-//   return toto;
-// }
-
-// const getXsrfToken = async (): Promise<string | undefined> => {
-//   if (token_headers) {
-//     return token_headers;
-//   } else {
-//     const response = await httpGetAsync();
-
-//     console.log("hard call sometinh", response);
-
-//     if (response && response === typeof Token) {
-//       const xsrfCookieString = response?.headers as Headers;
-//       let toto = xsrfCookieString
-//         .getSetCookie()
-//         ?.find((cookie) => cookie.trim().startsWith("XSRF-TOKEN="));
-//       if (xsrfCookieString) {
-//         token_headers = toto ? toto : "";
-//         return toto;
-//       }
-//     }
-//   }
-// };
 
 // Define a service using a base URL and expected endpoints
 export const dashBoardApi = createApi({
